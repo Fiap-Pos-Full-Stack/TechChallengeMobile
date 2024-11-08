@@ -1,31 +1,43 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
-import { IPost } from '../services/getPosts';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
+import { getPosts, IPost } from '../services/getPosts';
 import { searchPosts } from '../services/searchPosts';
-//import Post from '@/components/Post';
+import Post from '../components/Post'; // Personalize a exibição de cada post conforme necessário.
 import useDebouncedInput from '../hooks/useDebouncedInput';
 
-interface Values {
-  textField: string;
-}
-
 const Posts = () => {
-  const [textInput, setTextInput, cancelAll] = useDebouncedInput("", 1000);
+  const [textInput, setTextInput, cancelAll] = useDebouncedInput("", 1000);  // Hook para debouncing
   const [posts, setPosts] = useState<IPost[]>([]);
 
   useEffect(() => {
+    // Defina a função assíncrona dentro do useEffect
     const fetchPosts = async () => {
-      const searchedPosts = await searchPosts(textInput) as unknown as IPost[];
-      setPosts(searchedPosts);
+      try {
+        const response = await getPosts();  // Faz a requisição para obter os posts
+        const postsData = await response.json();  // Extrai o JSON da resposta
+        setPosts(postsData);  // Atualiza o estado com os posts recuperados
+      } catch (error) {
+        console.error('Erro ao carregar os posts:', error);
+      }
     };
-    
+
+    fetchPosts();  // Chama a função assíncrona
+  }, []);
+
+
+  // Função para buscar posts com base na pesquisa
+  const searchPost = useCallback(async (searchTerm: string) => {
+    const searchedPosts = await searchPosts(searchTerm) as IPost[];
+    setPosts(searchedPosts);
+  }, []);
+
+  useEffect(() => {
     if (textInput) {
-      fetchPosts();
+      searchPost(textInput);  // Se houver texto na pesquisa, realiza a busca
     } else {
-      // Fetch initial posts if necessary
-      setPosts([]); // Or set to initial data
+      setPosts([]); // Caso contrário, limpa os posts
     }
-  }, [textInput]);
+  }, [textInput, searchPost]);
 
   return (
     <ScrollView style={styles.container}>
@@ -37,14 +49,24 @@ const Posts = () => {
             style={styles.input}
             placeholder="Pesquisar post"
             value={textInput}
-            onChangeText={setTextInput}
+            onChangeText={setTextInput} // Atualiza o texto de pesquisa
           />
         </View>
       </View>
-      {textInput ? (
-        <Text style={styles.results}>Resultados: {textInput}</Text>
-      ) : null}
 
+      {textInput && (
+        <Text style={styles.results}>Resultados: {textInput}</Text>
+      )}
+
+      <View style={styles.cardsWrapper}>
+        {posts && posts.length > 0 ? (
+          posts.map((post) => (
+            <Post key={post.id} post={post} />
+          ))
+        ) : (
+          <Text style={styles.noPosts}>Não há nenhum post</Text>
+        )}
+      </View>
     </ScrollView>
   );
 };
@@ -53,6 +75,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    backgroundColor: '#fff',
   },
   header: {
     flexDirection: 'row',
@@ -63,6 +86,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
+    display:'flex',
+    flex:0.3
   },
   inlineFormWrapper: {
     flexDirection: 'row',
@@ -85,7 +110,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   cardsWrapper: {
-    // Add styles for cards wrapper if needed
+    marginTop: 16,
+    width:'100%',
+    
+  },
+  noPosts: {
+    fontSize: 16,
+    color: 'gray',
+    textAlign: 'center',
+    marginTop: 20,
   },
 });
 
