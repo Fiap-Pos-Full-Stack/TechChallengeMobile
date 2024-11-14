@@ -9,18 +9,24 @@ import { useNavigation } from '@react-navigation/native';
 import AuthProvider from '@/context/authContext';
 import normalTheme from '@/styles/Normal.styled';
 import Login from '@/app/login';
-import { Paragraph } from './../components/ui/Typography';
 
-type Props = {postid:string}
-type Props2 = {route:Props}
-
-
-const Post = ({ route }: Props2) => {
-  const postid  = route.postid; // Agora 'route.params' tem o tipo correto
+const Loginn = () => {
+ 
   return (
-    <View>
-      <Text>Post ID: {postid}</Text>
+    <AlertProvider>
+  <AuthProvider initial={""}>
+    <View style={styles.container}>
+
+<Login>
+
+</Login>
+    
+     
+      
+
     </View>
+    </AuthProvider>
+    </AlertProvider>
   );
 };
 
@@ -54,4 +60,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Post;
+export default Loginn;

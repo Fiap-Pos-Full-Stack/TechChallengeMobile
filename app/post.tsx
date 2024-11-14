@@ -1,29 +1,41 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StatusBar, StyleSheet } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import { doLogin } from '@/services/login';
 import useAuth from '@/hooks/useAuth';
 import useAlert from '@/hooks/useAlert';
 import AlertProvider, { AlertType } from '@/context/alertContext';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import AuthProvider from '@/context/authContext';
 import normalTheme from '@/styles/Normal.styled';
 import Login from '@/app/login';
+import { PropsScreenRoutes } from './interfaces';
+import { getPosts, IPost } from '@/services/getPosts';
+import { getPost } from '@/services/getPost';
+import SinglePost from '@/components/SinglePost';
 
-const Loginn = () => {
- 
+const Post = () => {
+  const route = useRoute();
+  const [post, setPost] = useState<IPost>();
+  useEffect(()=>{
+    // Defina a função assíncrona dentro do useEffect
+    const fetchPost = async () => {
+      try {
+        const response = await getPost(route.params.id || 0);  
+        const postData = await response.json();  
+        setPost(postData);  
+      } catch (error) {
+        console.error('Erro ao carregar o post:', error);
+      }
+    };
+
+    fetchPost();  
+  }, [route])
   return (
     <AlertProvider>
   <AuthProvider initial={""}>
     <View style={styles.container}>
-
-<Login>
-
-</Login>
-    
-     
-      
-
+      <SinglePost post={post}></SinglePost>
     </View>
     </AuthProvider>
     </AlertProvider>
@@ -60,4 +72,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Loginn;
+export default Post;

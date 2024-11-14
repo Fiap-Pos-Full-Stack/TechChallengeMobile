@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { getPosts, IPost } from '../services/getPosts';
 import { searchPosts } from '../services/searchPosts';
 import Post from '../components/Post'; // Personalize a exibição de cada post conforme necessário.
 import useDebouncedInput from '../hooks/useDebouncedInput';
+import { useNavigation } from 'expo-router';
+import { useRoute } from '@react-navigation/native';
 
 const Posts = () => {
   const [textInput, setTextInput, cancelAll] = useDebouncedInput("", 1000);  // Hook para debouncing
   const [posts, setPosts] = useState<IPost[]>([]);
-
+  const navigation = useNavigation();
   useEffect(() => {
     // Defina a função assíncrona dentro do useEffect
     const fetchPosts = async () => {
@@ -61,7 +63,9 @@ const Posts = () => {
       <View style={styles.cardsWrapper}>
         {posts && posts.length > 0 ? (
           posts.map((post) => (
+            <TouchableOpacity  key={post.id} onPress={() => {navigation.navigate("post", {id:post.id})}}>
             <Post key={post.id} post={post} />
+            </TouchableOpacity>
           ))
         ) : (
           <Text style={styles.noPosts}>Não há nenhum post</Text>

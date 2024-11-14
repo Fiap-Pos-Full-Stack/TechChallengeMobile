@@ -12,7 +12,7 @@ type PostProps = {
 
 const Post = ({ post }: PostProps) => {
     return (
-        <TouchableOpacity style={styles.postWrapper} onPress={() => {/* Navigar para a página do post */}}>
+        <View style={styles.postWrapper}>
             <View style={styles.article}>
                 <View style={styles.postThumb}>
                     <Image
@@ -34,7 +34,7 @@ const Post = ({ post }: PostProps) => {
                     <SmallLink>Leia mais</SmallLink>
                 </View>
             </View>
-        </TouchableOpacity>
+        </View>
     );
 }
 
