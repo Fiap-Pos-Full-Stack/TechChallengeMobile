@@ -22,6 +22,7 @@ export type AuthContextType = {
     logout: () => void;
     authorId: number;
     authorName: string;
+    role: string
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -80,7 +81,7 @@ function AuthProvider({ initial = "", children }: AuthProviderProps) {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ token, setToken, login, logout, authorId, authorName }}>
+        <AuthContext.Provider value={{ token, setToken, login, logout, authorId, authorName,role }}>
             {children}
         </AuthContext.Provider>
     );
