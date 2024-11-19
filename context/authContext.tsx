@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 
 const LOCAL_STORAGE_TOKEN = 'token';
 const LOCAL_STORAGE_USERID = 'userId';
+const LOCAL_STORAGE_ROLE = 'role';
 const LOCAL_STORAGE_USERNAME = 'username';
 
 type UserToken = {
@@ -11,6 +12,7 @@ type UserToken = {
     iat?: number;
     username?: string;
     _id?: number;
+    role?: string
 }
 
 export type AuthContextType = {
@@ -33,6 +35,7 @@ function AuthProvider({ initial = "", children }: AuthProviderProps) {
     const [token, setToken] = useState<string>(initial);
     const [authorId, setAuthorId] = useState<number>(0);
     const [authorName, setAuthorName] = useState<string>("");
+    const [role, setRole] = useState<string>("");
 
     useEffect(() => {
         const loadToken = async () => {
@@ -53,9 +56,11 @@ function AuthProvider({ initial = "", children }: AuthProviderProps) {
             await AsyncStorage.setItem(LOCAL_STORAGE_TOKEN, authToken);
             await AsyncStorage.setItem(LOCAL_STORAGE_USERNAME, user.username?.toString() || "");
             await AsyncStorage.setItem(LOCAL_STORAGE_USERID, user._id?.toString() || "0");
+            await AsyncStorage.setItem(LOCAL_STORAGE_ROLE, user.role?.toString() || "");
             setToken(authToken);
             setAuthorId(user._id || 0);
             setAuthorName(user.username || "");
+            setRole(user.role?.toString() || "")
         } catch (error) {
             console.error("Error saving data: ", error);
         }
