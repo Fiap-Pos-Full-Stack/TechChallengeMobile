@@ -72,9 +72,11 @@ function AuthProvider({ initial = "", children }: AuthProviderProps) {
             await AsyncStorage.removeItem(LOCAL_STORAGE_TOKEN);
             await AsyncStorage.removeItem(LOCAL_STORAGE_USERNAME);
             await AsyncStorage.removeItem(LOCAL_STORAGE_USERID);
+            await AsyncStorage.removeItem(LOCAL_STORAGE_ROLE);
             setToken("");
             setAuthorId(0);
             setAuthorName("");
+            setRole("")
         } catch (error) {
             console.error("Error removing data: ", error);
         }
