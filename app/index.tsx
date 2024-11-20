@@ -10,6 +10,7 @@ import AuthProvider from '@/context/authContext';
 import { PropsStackRoutes } from './interfaces';
 import AdminPost from '@/app/admin-posts';
 import AdminPostEdit from './admin-post-edit';
+import NewPost from '@/app/admin-post-new';
 
 const Stack = createStackNavigator<PropsStackRoutes>();
 
@@ -24,6 +25,7 @@ const AppNavigator = () => {
         <Stack.Screen name="Posts" component={Posts} />
         <Stack.Screen name="AdminPost" component={AdminPost} />
         <Stack.Screen name="EditPost" component={AdminPostEdit} />
+        <Stack.Screen name="NewPost" component={NewPost} />
       </Stack.Navigator>
       </AuthProvider>
       </AlertProvider>

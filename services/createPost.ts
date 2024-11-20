@@ -1,8 +1,9 @@
 import { API_URL, UPDATE_POST_ENDPOINT, POSTS_ROUTE } from "../configs/api"
 import { LOCAL_STORAGE_TOKEN } from "../configs/constraints"
 
-export const createPost = async ( title:string, author:string, content:string)=> {
-  const token = localStorage.getItem(LOCAL_STORAGE_TOKEN)
+export const createPost = async ( title:string, author:string, content:string, token:string) => {
+  //const token = localStorage.getItem(LOCAL_STORAGE_TOKEN)
+  console.log("token " + token)  
     const response = await fetch(`${API_URL}/${POSTS_ROUTE}/`,{
         method: 'POST',
         headers: {

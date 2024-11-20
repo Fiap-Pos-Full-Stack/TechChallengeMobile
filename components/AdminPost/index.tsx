@@ -5,9 +5,10 @@ import { deletePost } from "../../services/deletePost";
 import useAlert from "../../hooks/useAlert";
 import { AlertType } from "../../context/alertContext";
 import { useNavigation } from "@react-navigation/native"; // Para navegação no React Native
+import useAuth from "@/hooks/useAuth";
 
 
-
+type AdminPostNavigationProp = StackNavigationProp<RootParamList, 'AdminPost'>;
 
 type AdminPostProps = {
   post: IPost | undefined;
@@ -15,16 +16,16 @@ type AdminPostProps = {
 
 const AdminPost = ({ post }: AdminPostProps) => {
   const { dispatchAlert } = useAlert();
-  const navigation = useNavigation();
-
+  const navigation = useNavigation<AdminPostNavigationProp>();
+  const {token} = useAuth();
   const onDeletePost = useCallback(
     (postId: number) => {
       dispatchAlert(
         "Você deseja mesmo deletar o post?",
         AlertType.YES_NO,
         async () => {
-          await deletePost(postId);
-          navigation.navigate("AdminPosts"); // Navegação para a tela de admin após exclusão
+          await deletePost(postId, token);
+          navigation.replace("AdminPost"); // Navegação para a tela de admin após exclusão
         },
         () => {}
       );

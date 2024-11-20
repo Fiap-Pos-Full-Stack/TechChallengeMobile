@@ -2,11 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { Formik } from 'formik';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { updatePost } from '../services/updatePost'; // Make sure this works with React Native
-import useAlert from '../hooks/useAlert'; // Assuming this hook is also compatible with React Native
+import { updatePost } from '../services/updatePost'; 
+import useAlert from '../hooks/useAlert'; 
 import { AlertType } from '../context/alertContext';
-import { IPost } from '../services/getPosts'; // Ensure this is available in React Native
+import { IPost } from '../services/getPosts'; 
 import { getPost } from '@/services/getPost';
+import useAuth from '@/hooks/useAuth';
+import { StackNavigationProp } from '@react-navigation/stack';
+
+
+type AdminPostEditNavigationProp = StackNavigationProp<RootParamList, 'AdminPostEdit'>;
 
 interface Values {
   title: string;
@@ -14,21 +19,16 @@ interface Values {
   author: string;
 }
 
-
-
 const AdminPostEdit = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<AdminPostEditNavigationProp>();
   const { dispatchAlert } = useAlert();
   const route = useRoute();
-  const [post, setPost] = useState<IPost>();
-
-  useEffect(()=>{
-    // Defina a função assíncrona dentro do useEffect
+  const [post, setPost] = useState<IPost | null>(null);
+  const {token} = useAuth();
+  useEffect(() => {
     const fetchPost = async () => {
       try {
         const response = await getPost(route.params.id || 0);  
-        
-        
         const postData = await response.json();  
         setPost(postData);  
       } catch (error) {
@@ -37,46 +37,47 @@ const AdminPostEdit = () => {
     };
 
     fetchPost();  
-  }, [route])
-  console.log("post " , post?.title );
+  }, [route.params.id]);
+
+  // Garantir que o formulário só seja renderizado quando o post estiver carregado
+  if (!post) {
+    return <Text>Carregando...</Text>;
+  }
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Editar Post</Text>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.backLink}>Voltar</Text>
-        </TouchableOpacity>
       </View>
 
       <Formik
         initialValues={{
-
-          title: post?.title,
-          content: post?.description,
-          author: post?.author,
+          title: post?.title || '', // Inicializa com string vazia
+          content: post?.description || '', // Inicializa com string vazia
+          author: post?.author || '', // Inicializa com string vazia
         }}
         onSubmit={async (values, { setSubmitting }) => {
           try {
-            //await updatePost(post.id, values.title, values.author, values.content);
+            // Atualizar o post com os novos valores
+            await updatePost(post.id, values.title, values.author, values.content, token);
             setSubmitting(false);
             dispatchAlert("Atualizado com sucesso", AlertType.SUCCESS);
-            navigation.navigate('AdminPosts'); // Navigate to the admin home or another screen
+            navigation.replace('AdminPost');
           } catch (error) {
             dispatchAlert("Erro ao atualizar post", AlertType.ERROR);
             setSubmitting(false);
           }
         }}
       >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
+        {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
           <View style={styles.formWrapper}>
             <Text style={styles.label}>Titulo</Text>
             <TextInput
-             id='title'
               style={styles.input}
               placeholder="Titulo"
               onChangeText={handleChange('title')}
               onBlur={handleBlur('title')}
-              value={post?.title}
+              value={values.title} // Usando valores do Formik
             />
 
             <Text style={styles.label}>Autor</Text>
@@ -85,7 +86,7 @@ const AdminPostEdit = () => {
               placeholder="Autor"
               onChangeText={handleChange('author')}
               onBlur={handleBlur('author')}
-              value={post?.author}
+              value={values.author} // Usando valores do Formik
             />
 
             <Text style={styles.label}>Conteudo</Text>
@@ -96,11 +97,17 @@ const AdminPostEdit = () => {
               numberOfLines={4}
               onChangeText={handleChange('content')}
               onBlur={handleBlur('content')}
-              value={post?.description}
+              value={values.content} // Usando valores do Formik
             />
 
-            <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
-              <Text style={styles.buttonText}>Atualizar</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => handleSubmit()}
+              disabled={isSubmitting} // Desabilitar o botão enquanto o formulário está sendo enviado
+            >
+              <Text style={styles.buttonText}>
+                {isSubmitting ? 'Atualizando...' : 'Atualizar'}
+              </Text>
             </TouchableOpacity>
           </View>
         )}
@@ -120,11 +127,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-  },
-  backLink: {
-    fontSize: 16,
-    color: 'blue',
-    marginTop: 8,
   },
   formWrapper: {
     marginTop: 16,
@@ -148,7 +150,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 8,
     marginBottom: 16,
-    textAlignVertical: 'top',
+    textAlignVertical: 'top', // Para texto ficar no topo do TextInput
   },
   button: {
     backgroundColor: '#007BFF',
