@@ -54,7 +54,10 @@ function AuthProvider({ initial = "", children }: AuthProviderProps) {
     const login = useCallback(async (authToken: string) => {
         try {
             const user = jwtDecode<UserToken>(authToken);
+            console.log("authToken " + authToken);
             await AsyncStorage.setItem(LOCAL_STORAGE_TOKEN, authToken);
+            const username = await AsyncStorage.getItem(LOCAL_STORAGE_TOKEN);
+            console.log("username " + username);
             await AsyncStorage.setItem(LOCAL_STORAGE_USERNAME, user.username?.toString() || "");
             await AsyncStorage.setItem(LOCAL_STORAGE_USERID, user._id?.toString() || "0");
             await AsyncStorage.setItem(LOCAL_STORAGE_ROLE, user.role?.toString() || "");

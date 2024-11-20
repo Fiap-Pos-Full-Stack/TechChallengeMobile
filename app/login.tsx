@@ -24,7 +24,7 @@ const Login = () => {
       const response = await doLogin(user, pass);
       if (response.token) {
         login(response.token);
-        navigation.navigate('posts'); // Ajuste o nome da tela conforme necessário
+        navigation.navigate('AdminPost'); // Ajuste o nome da tela conforme necessário
         dispatchAlert("Logado com sucesso", AlertType.SUCCESS);
       }
     } catch {

@@ -1,63 +1,34 @@
-import React, { useCallback } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StatusBar, StyleSheet } from 'react-native';
-import { Formik, FormikHelpers } from 'formik';
-import { doLogin } from '@/services/login';
-import useAuth from '@/hooks/useAuth';
-import useAlert from '@/hooks/useAlert';
-import AlertProvider, { AlertType } from '@/context/alertContext';
-import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+
+import { createStackNavigator } from '@react-navigation/stack';
+import Login from '@/app/login'; // Update this path
+import index from '@/app/indexe'; 
+import Posts from '@/app/posts'; 
+import Post from './post';
+import AlertProvider from '@/context/alertContext';
 import AuthProvider from '@/context/authContext';
-import normalTheme from '@/styles/Normal.styled';
-import Login from '@/app/login';
+import { PropsStackRoutes } from './interfaces';
+import AdminPost from '@/app/admin-posts';
+import AdminPostEdit from './admin-post-edit';
 
-const Loginn = () => {
- 
+const Stack = createStackNavigator<PropsStackRoutes>();
+
+const AppNavigator = () => {
   return (
-    <AlertProvider>
-  <AuthProvider initial={""}>
-    <View style={styles.container}>
+  
+          <AlertProvider>
+          <AuthProvider initial={""}>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Post" component={Post}  initialParams={{ id:0 }} />
+        <Stack.Screen name="Posts" component={Posts} />
+        <Stack.Screen name="AdminPost" component={AdminPost} />
+        <Stack.Screen name="EditPost" component={AdminPostEdit} />
+      </Stack.Navigator>
+      </AuthProvider>
+      </AlertProvider>
 
-<Login>
-
-</Login>
-    
-     
-      
-
-    </View>
-    </AuthProvider>
-    </AlertProvider>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 16,
-    textAlign: 'center',
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingHorizontal: 8,
-  },
-  button: {
-    backgroundColor: `rgb(${normalTheme.colors.primary})`, // Cor do botão
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: 'white', // Cor do texto do botão
-    fontSize: 16,
-  },
-});
-
-export default Loginn;
+export default AppNavigator;
