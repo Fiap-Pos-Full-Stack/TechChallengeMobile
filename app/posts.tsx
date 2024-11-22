@@ -5,41 +5,36 @@ import { searchPosts } from '../services/searchPosts';
 import Post from '../components/Post'; // Personalize a exibição de cada post conforme necessário.
 import useDebouncedInput from '../hooks/useDebouncedInput';
 import { useNavigation } from 'expo-router';
-import { useRoute } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialIcons'; // Ícones do MaterialIcons
+import useAuth from '@/hooks/useAuth'; // Importa o contexto de autenticação
 
 const Posts = () => {
-  const [textInput, setTextInput, cancelAll] = useDebouncedInput("", 1000);  // Hook para debouncing
+  const [textInput, setTextInput] = useState<string>(""); // Hook para debouncing
+  const [textSearch, setTextSearch] = useState<string>(""); // Hook para debouncing
   const [posts, setPosts] = useState<IPost[]>([]);
   const navigation = useNavigation();
+  const { role } = useAuth(); // Obtém o token do contexto de autenticação
+
+
   useEffect(() => {
-    // Defina a função assíncrona dentro do useEffect
     const fetchPosts = async () => {
       try {
-        const response = await getPosts();  // Faz a requisição para obter os posts
-        const postsData = await response.json();  // Extrai o JSON da resposta
-        setPosts(postsData);  // Atualiza o estado com os posts recuperados
+        const response = await getPosts(); // Faz a requisição para obter os posts
+        const postsData = await response.json(); // Extrai o JSON da resposta
+        setPosts(postsData); // Atualiza o estado com os posts recuperados
       } catch (error) {
         console.error('Erro ao carregar os posts:', error);
       }
     };
 
-    fetchPosts();  // Chama a função assíncrona
+    fetchPosts(); // Chama a função assíncrona
   }, []);
 
-
-  // Função para buscar posts com base na pesquisa
   const searchPost = useCallback(async (searchTerm: string) => {
-    const searchedPosts = await searchPosts(searchTerm) as IPost[];
+    const searchedPosts = await searchPosts(searchTerm) as unknown as IPost[];
     setPosts(searchedPosts);
-  }, []);
-
-  useEffect(() => {
-    if (textInput) {
-      searchPost(textInput);  // Se houver texto na pesquisa, realiza a busca
-    } else {
-      setPosts([]); // Caso contrário, limpa os posts
-    }
-  }, [textInput, searchPost]);
+    setTextSearch(searchTerm);
+  }, [textInput]);
 
   return (
     <ScrollView style={styles.container}>
@@ -47,30 +42,68 @@ const Posts = () => {
         <Text style={styles.title}>Posts</Text>
         <View style={styles.inlineFormWrapper}>
           <Text style={styles.subTitle}>Pesquisar</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Pesquisar post"
-            value={textInput}
-            onChangeText={setTextInput} // Atualiza o texto de pesquisa
-          />
+          <View style={styles.inputWrapper}>
+            <TextInput
+              style={styles.input}
+              placeholder="Pesquisar post"
+              value={textInput}
+              onChangeText={setTextInput} // Atualiza o texto de pesquisa
+            />
+            <TouchableOpacity
+              style={styles.searchButton}
+              onPress={() => searchPost(textInput)} // Realiza a busca quando o botão é pressionado
+            >
+              <Icon name="search" size={24} color="gray" />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
 
-      {textInput && (
-        <Text style={styles.results}>Resultados: {textInput}</Text>
+      {role === '1' && (
+        <View style={styles.buttonWrapper}>
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={() => navigation.navigate('AdminPost')} // Navega para a página "AdminPosts"
+          >
+            <Icon name="checklist-rtl" size={24} color="white" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={() => navigation.navigate('AdminTeachers')} // Navega para a página "Cadastro"
+          >
+            <Icon name="engineering" size={24} color="white" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={() => navigation.navigate('AdminStudents')} // Navega para a página "Cadastro"
+          >
+            <Icon name="person-search" size={24} color="white" />
+          </TouchableOpacity>
+
+        </View>
       )}
+    
+      {textSearch && <Text style={styles.results}>Resultados: {textSearch}</Text>}
 
       <View style={styles.cardsWrapper}>
         {posts && posts.length > 0 ? (
           posts.map((post) => (
-            <TouchableOpacity  key={post.id} onPress={() => {navigation.navigate("post", {id:post.id})}}>
-            <Post key={post.id} post={post} />
+            <TouchableOpacity
+              key={post.id}
+              onPress={() => {
+                navigation.navigate("post", { id: post.id });
+              }}
+            >
+              <Post key={post.id} post={post} />
             </TouchableOpacity>
           ))
         ) : (
           <Text style={styles.noPosts}>Não há nenhum post</Text>
         )}
       </View>
+     
     </ScrollView>
   );
 };
@@ -90,8 +123,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    display:'flex',
-    flex:0.3
+    flex: 0.3,
   },
   inlineFormWrapper: {
     flexDirection: 'row',
@@ -102,12 +134,21 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginRight: 8,
   },
+  inputWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+  },
   input: {
     flex: 1,
-    borderColor: 'gray',
-    borderWidth: 1,
     padding: 8,
-    borderRadius: 4,
+    fontSize: 16,
+  },
+  searchButton: {
+    padding: 8,
   },
   results: {
     marginVertical: 16,
@@ -115,14 +156,26 @@ const styles = StyleSheet.create({
   },
   cardsWrapper: {
     marginTop: 16,
-    width:'100%',
-    
+    width: '100%',
   },
   noPosts: {
     fontSize: 16,
     color: 'gray',
     textAlign: 'center',
     marginTop: 20,
+  },
+  buttonWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  iconButton: {
+    backgroundColor: '#007AFF', // Azul para destacar
+    padding: 10,
+    borderRadius: 10, // Circular
+    marginHorizontal: 10, // Espaço entre os botões
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

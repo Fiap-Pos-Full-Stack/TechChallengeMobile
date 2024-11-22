@@ -4,6 +4,21 @@ interface ITeacher {
     id: number;
     username?: string;
 }
+export interface ITeacherAdmin {
+    id: number;
+    username?: string;
+    name?: string
+}
+export interface IStudentAdmin {
+    id: number;
+    username?: string;
+    name?: string
+}
+export interface IUserAdmin {
+    id: number;
+    username?: string;
+    name?: string
+}
 export interface IComment {
     id: number;
     name: string,

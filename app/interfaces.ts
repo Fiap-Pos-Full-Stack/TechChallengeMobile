@@ -5,6 +5,9 @@ export type PropsStackRoutes = {
     Login: undefined,
     Posts: undefined,
     AdminPost: undefined,
+    AdminTeachers: undefined,
+    AdminStudents: undefined,
+    Register: undefined,
     NewPost: undefined,
     EditPost: { id: number },
     Post : { id:number }

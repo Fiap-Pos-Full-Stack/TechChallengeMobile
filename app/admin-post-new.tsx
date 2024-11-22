@@ -37,7 +37,7 @@ const AdminPostNew = () => {
           try {
             console.log("values " + values.title, values.author, values.content, token);
             const response = await createPost(values.title, values.author, values.content, token);
-            navigation.replace('AdminPost');
+            navigation.replace('Posts');
             console.log("response " + response);
             setSubmitting(false);
             dispatchAlert('Criado com sucesso', AlertType.SUCCESS);

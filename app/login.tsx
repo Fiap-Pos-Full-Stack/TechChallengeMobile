@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StatusBar, StyleSheet } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import { doLogin } from '@/services/login';
@@ -8,6 +8,7 @@ import AlertProvider, { AlertType } from '@/context/alertContext';
 import { useNavigation } from '@react-navigation/native';
 import AuthProvider from '@/context/authContext';
 import normalTheme from '@/styles/Normal.styled';
+import { USER_ROUTE_TEACHER, USER_ROUTE_STUDENT} from "../configs/api"
 
 interface LoginValues {
   user: string;
@@ -18,22 +19,25 @@ const Login = () => {
   const navigation = useNavigation();
   const { login } = useAuth();
   const { dispatchAlert } = useAlert();
+  const [userType, setUserType] = useState<'Professor' | 'Estudante'>('Professor'); // Estado para o tipo de usuário
 
-  const doLoginCallback = useCallback(async (user: string, pass: string) => {
-    try {
-      const response = await doLogin(user, pass);
-      if (response.token) {
-        login(response.token);
-        navigation.navigate('AdminPost'); // Ajuste o nome da tela conforme necessário
-        dispatchAlert("Logado com sucesso", AlertType.SUCCESS);
+  const doLoginCallback = useCallback(
+    async (user: string, pass: string) => {
+      try {
+        const response = await doLogin(user, pass, userType === 'Estudante' ? USER_ROUTE_STUDENT : USER_ROUTE_TEACHER); // Define o tipo de usuário
+        if (response.token) {
+          login(response.token);
+          navigation.navigate( 'Posts' ); // Ajuste o nome da tela conforme necessário
+          dispatchAlert('Logado com sucesso', AlertType.SUCCESS);
+        }
+      } catch {
+        dispatchAlert('Usuário ou senha inválidos', AlertType.ERROR);
       }
-    } catch {
-      dispatchAlert("Usuário ou senha inválidos", AlertType.ERROR);
-    }
-  }, [login, navigation, dispatchAlert]);
+    },
+    [login, navigation, dispatchAlert, userType]
+  );
 
   const handleSubmit = (values: LoginValues, { setSubmitting }: FormikHelpers<LoginValues>) => {
-    console.log("user senha!" + values.user + values.password + "user senha!");
     if (!values.user || !values.password) {
       alert('Todos os campos são obrigatórios!');
       setSubmitting(false);
@@ -44,10 +48,9 @@ const Login = () => {
   };
 
   return (
- 
     <View style={styles.container}>
-
       <Text style={styles.title}>Login</Text>
+
       <Formik
         initialValues={{ user: '', password: '' }}
         onSubmit={handleSubmit}
@@ -56,7 +59,7 @@ const Login = () => {
           <>
             <TextInput
               style={styles.input}
-              placeholder="Usuário te"
+              placeholder="Usuário"
               onChangeText={handleChange('user')}
               onBlur={handleBlur('user')}
               value={values.user}
@@ -69,19 +72,17 @@ const Login = () => {
               onBlur={handleBlur('password')}
               value={values.password}
             />
-            <TouchableOpacity 
-              style={styles.button} 
+            <TouchableOpacity
+              style={styles.button}
               onPress={() => handleSubmit()} // Chamada correta da função de envio
-              activeOpacity={0.1}
+              activeOpacity={0.8}
             >
               <Text style={styles.buttonText}>Entrar</Text>
             </TouchableOpacity>
           </>
         )}
       </Formik>
-
     </View>
- 
   );
 };
 
@@ -104,14 +105,39 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   button: {
-    backgroundColor: `rgb(${normalTheme.colors.primary})`, // Cor do botão
+    backgroundColor: '#007BFF',
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
   },
   buttonText: {
-    color: 'white', // Cor do texto do botão
+    color: 'white',
     fontSize: 16,
+  },
+  userTypeWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  userTypeButton: {
+    flex: 1,
+    padding: 10,
+    marginHorizontal: 5,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  activeUserTypeButton: {
+    backgroundColor: '#007BFF',
+    borderColor: '#007BFF',
+  },
+  userTypeText: {
+    fontSize: 16,
+    color: 'black',
+  },
+  activeUserTypeText: {
+    color: 'white',
   },
 });
 
