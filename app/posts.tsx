@@ -6,6 +6,7 @@ import Post from '../components/Post';
 import { useNavigation } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons'; 
 import useAuth from '@/hooks/useAuth'; 
+import { useFocusEffect } from '@react-navigation/native';
 
 const Posts = () => {
   const [textInput, setTextInput] = useState<string>(""); 
@@ -14,23 +15,20 @@ const Posts = () => {
   const navigation = useNavigation();
   const { role } = useAuth(); 
 
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => null, 
-    });
-    const fetchPosts = async () => {
-      try {
-        const response = await getPosts(); 
-        const postsData = await response.json(); 
-        setPosts(postsData); 
-      } catch (error) {
-        console.error('Erro ao carregar os posts:', error);
-      }
-    };
-
-    fetchPosts(); 
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchPosts = async () => {
+        try {
+          const response = await getPosts();
+          const postsData = await response.json();
+          setPosts(postsData);
+        } catch (error) { 
+          console.error('Erro ao buscar posts', error);
+        } 
+      };
+      fetchPosts();
+    }, []) 
+  );
 
   const searchPost = useCallback(async (searchTerm: string) => {
     const searchedPosts = await searchPosts(searchTerm) as unknown as IPost[];
@@ -41,11 +39,11 @@ const Posts = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-      <TouchableOpacity
-          style={styles.title}
-          onPress={() => navigation.goBack()} 
-        >
-          <Icon name="arrow-back" size={30} color="black" />
+        <TouchableOpacity
+            style={styles.title}
+            onPress={() => navigation.goBack()} 
+          >
+            <Icon name="arrow-back" size={30} color="black" />
         </TouchableOpacity>
         <View style={styles.inlineFormWrapper}>
           <Text style={styles.subTitle}>Pesquisar</Text>

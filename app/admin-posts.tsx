@@ -66,14 +66,6 @@ const {token} = useAuth();
   );
 };
 
-AdminPosts.navigationOptions = {
-  headerLeft: () => (
-    <TouchableOpacity onPress={() => useNavigation().goBack()}>
-      <Icon name="arrow-back" size={30} color="black" />
-    </TouchableOpacity>
-  ),
-};
-
 export default AdminPosts;
 
 const styles = StyleSheet.create({
