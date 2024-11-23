@@ -29,6 +29,7 @@ const AdminTeachers = () => {
     const fetchData = async (actualPage:number) => {
       const response = await getAdminUsers(USER_ROUTE_TEACHER, token, actualPage);
       setTotalPage(parseInt(response.headers.get("X-Total-Pages") || "1"))
+
       const fetchedPosts: ITeacherAdmin[] = await response.json();
       setPosts(fetchedPosts);
     };
