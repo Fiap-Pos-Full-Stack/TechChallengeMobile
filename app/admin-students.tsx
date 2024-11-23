@@ -79,10 +79,12 @@ export default AdminStudents;
 
 const styles = StyleSheet.create({
   pagination:{
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap:10,
+    flexDirection: 'row', // Alinha os botões de paginação na horizontal
+    justifyContent: 'center', // Centraliza os botões
+    gap: 1, // Diminui o espaço entre os botões
     alignItems: 'center',
+    flexWrap: 'wrap', // Permite que os botões que não cabem na linha se movam para a próxima linha
+    paddingHorizontal: 1, // Ad// Adiciona um pequeno espaço lateral
   },
   title: {
     fontSize: 24,
@@ -91,28 +93,30 @@ const styles = StyleSheet.create({
   },
   page: {
     backgroundColor: '#1e6e2f',
-    padding: 10,
+    padding: 1, // Diminui o padding para um tamanho mais compacto
     borderRadius: 5,
     color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 1,
+    marginBottom: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    width: 40,
   },
   pageDisabled: {
     backgroundColor: '#1e6e2f',
-    opacity:0.5,
-    padding: 10,
+    opacity: 0.5,
+    padding: 1, // Diminui o padding para um tamanho mais compacto
     borderRadius: 5,
     color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 1,
+    marginBottom: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    width: 40,
   },
   container: {
     flex: 1,
@@ -150,5 +154,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 10, // Espaço entre os botões
     justifyContent: 'center',
     alignItems: 'center',
+    marginLeft: 'auto',
+
   },
 });
+
