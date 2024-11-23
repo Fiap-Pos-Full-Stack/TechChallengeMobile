@@ -10,6 +10,7 @@ import useAuth from '@/hooks/useAuth';
 import { Title } from './../components/ui/Typography';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import GoBack from '@/components/navigation/GoBack';
 // Simulação da interface do IPost
 
 const AdminPosts = () => {
@@ -39,12 +40,7 @@ const {token} = useAuth();
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        
-        <TouchableOpacity
-          style={styles.title} onPress={() => navigation.navigate("Posts")} >
-          <Icon name="arrow-back" size={30} color="black" />
-        </TouchableOpacity>
-
+        <GoBack title="Admin Posts" navigation={navigation} routeName="Posts" />
         <TouchableOpacity
           style={styles.iconButton}
           onPress={() => navigation.navigate("Criar_Post")} 

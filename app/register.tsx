@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { Formik } from 'formik';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -11,6 +11,8 @@ import { IUserAdmin } from '@/services/getPosts';
 import { updateUser } from '@/services/updateUser';
 import { createUser } from '@/services/createUser';
 import { getUser } from '@/services/getUser';
+import GoBack from '@/components/navigation/GoBack';
+import Icon from 'react-native-vector-icons/Ionicons'; 
 
 type AdminTeacherNewNavigationProp = StackNavigationProp<RootParamList, 'Register'>;
 
@@ -28,6 +30,14 @@ const UserRegistration = () => {
   const [user   , setUser] = useState<IUserAdmin | null>(null);
   const { token } = useAuth();
   const paramIdDefined = route?.params?.id !== undefined;
+  const routeName = route.params?.role === '1' ? 'Admin_Professor' : 'Admin_Estudante';
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+      title: '',
+    });
+  }, [navigation]);
 
   if(paramIdDefined){
     useEffect(() => {
@@ -35,7 +45,7 @@ const UserRegistration = () => {
         try {
           const response = await getUser( route.params?.role === '1' ? USER_ROUTE_TEACHER : USER_ROUTE_STUDENT, token, route.params.id || 0);  
           const postData = await response.json();  
-          setUser(postData); 
+          setUser(postData);
         } catch (error) {
           console.error('Erro ao carregar o post:', error);
         }
@@ -52,13 +62,20 @@ const UserRegistration = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>{paramIdDefined ? 'Atualização' : 'Cadastro' } de {route.params?.role === '1' ? 'Professor' : 'Estudante'}</Text>
+        <TouchableOpacity
+        style={styles.title}
+        onPress={() => navigation.goBack()}
+        >
+          <Icon name="arrow-back" style={styles.title} size={30} color="black" />
+          <Text style={styles.title}>Cadastrar</Text>
+        </TouchableOpacity>
+        
       </View>
 
       <Formik
         initialValues={{ 
           name: user?.name || '',
-          password: '', 
+          password: user?.password || '',   
           userName: user?.username || ''
         }}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
@@ -69,7 +86,7 @@ const UserRegistration = () => {
             else{
               await createUser(route.params?.role === '1' ? USER_ROUTE_TEACHER : USER_ROUTE_STUDENT, token, values.name, values.password, values.userName );
             }
-            navigation.replace(route.params?.role === '1' ?'Admin_Professor' : 'Admin_Estudante');
+            navigation.replace(routeName);
             setSubmitting(false);
             dispatchAlert('Usuário cadastrado com sucesso!', AlertType.SUCCESS);
           } catch (error) {
@@ -135,18 +152,21 @@ const UserRegistration = () => {
 
 const styles = StyleSheet.create({
   container: {
+    
     flex: 1,
     padding: 16,
   },
   header: {
     marginBottom: 16,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
   formWrapper: {
     marginTop: 16,
+  },
+  title: {
+    fontSize: 34,
+    marginLeft: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   label: {
     fontSize: 16,
@@ -202,5 +222,3 @@ const styles = StyleSheet.create({
 });
 
 export default UserRegistration;
-
-

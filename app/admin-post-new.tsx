@@ -8,6 +8,7 @@ import { AlertType } from '../context/alertContext';
 import useAuth from '@/hooks/useAuth';
 import login from './login';
 import { StackNavigationProp } from '@react-navigation/stack';
+import GoBack from '@/components/navigation/GoBack';
 
 type AdminPostNewNavigationProp = StackNavigationProp<RootParamList, 'AdminPostNew'>;
 interface Values {
@@ -23,8 +24,7 @@ const AdminPostNew = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        
-
+        <GoBack title="Cadastrar Post" navigation={navigation} routeName="Admin_Post"/>
       </View>
 
       <Formik

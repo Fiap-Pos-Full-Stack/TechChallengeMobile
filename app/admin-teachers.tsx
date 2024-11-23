@@ -9,6 +9,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons'; // Importando os ícones do Ionicons
 import { getAdminUsers } from '@/services/getAdminUsers';
 import {  USER_ROUTE_TEACHER } from '@/configs/api';
+import GoBack from '@/components/navigation/GoBack';
 
 // Simulação da interface do IPost
 type AdminTeacherNewNavigationProp = StackNavigationProp<RootParamList, 'AdminTeachers'>;
@@ -41,22 +42,13 @@ const AdminTeachers = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-    
-        
-        <TouchableOpacity
-          style={styles.title} onPress={() => navigation.navigate("Posts")} >
-          <Icon name="arrow-back" size={30} color="black" />
-        </TouchableOpacity>
-
-
+        <GoBack title="Admin Professor" navigation={navigation} routeName="Posts"/>
         <TouchableOpacity
           style={styles.iconButton}
           onPress={() => navigation.replace('Registrar',{role: "1" })} 
         >
           <Icon name="person-add" size={24} color="white" />
-        </TouchableOpacity>
-
-        
+        </TouchableOpacity>        
       </View>
 
       {posts.length > 0 ? (

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StatusBar, StyleSheet } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import { doLogin } from '@/services/login';
@@ -20,6 +20,11 @@ const Login = () => {
   const { login } = useAuth();
   const { dispatchAlert } = useAlert();
   const [userType, setUserType] = useState<'Professor' | 'Estudante'>('Professor'); // Estado para o tipo de usuário
+
+  useLayoutEffect(() => {
+    navigation.setOptions({ headerShown: false });
+  }, [navigation]);
+
 
   const doLoginCallback = useCallback(
     async (user: string, pass: string) => {

@@ -17,7 +17,8 @@ export interface IStudentAdmin {
 export interface IUserAdmin {
     id: number;
     username?: string;
-    name?: string
+    name?: string,
+    password?: string
 }
 export interface IComment {
     id: number;

@@ -9,6 +9,7 @@ import { IPost } from '../services/getPosts';
 import { getPost } from '@/services/getPost';
 import useAuth from '@/hooks/useAuth';
 import { StackNavigationProp } from '@react-navigation/stack';
+import GoBack from '@/components/navigation/GoBack';
 
 
 type AdminPostEditNavigationProp = StackNavigationProp<RootParamList, 'AdminPostEdit'>;
@@ -48,7 +49,7 @@ const AdminPostEdit = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        
+        <GoBack title="Editar Post" navigation={navigation} routeName="Admin_Post"/>
       </View>
 
       <Formik

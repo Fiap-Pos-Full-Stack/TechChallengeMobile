@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
 import { getPosts, IPost } from '../services/getPosts';
 import { searchPosts } from '../services/searchPosts';
 import Post from '../components/Post'; 
@@ -7,6 +7,9 @@ import { useNavigation } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons'; 
 import useAuth from '@/hooks/useAuth'; 
 import { useFocusEffect } from '@react-navigation/native';
+import { useLayoutEffect } from 'react';
+import GoBack from '@/components/navigation/GoBack';
+
 
 const Posts = () => {
   const [textInput, setTextInput] = useState<string>(""); 
@@ -14,6 +17,13 @@ const Posts = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const navigation = useNavigation();
   const { role } = useAuth(); 
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+      title: '',
+    });
+  }, [navigation]);
 
   useFocusEffect(
     useCallback(() => {
@@ -37,79 +47,75 @@ const Posts = () => {
   }, [textInput]);
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity
-            style={styles.title}
-            onPress={() => navigation.goBack()} 
-          >
-            <Icon name="arrow-back" size={30} color="black" />
-        </TouchableOpacity>
-        <View style={styles.inlineFormWrapper}>
-          <Text style={styles.subTitle}>Pesquisar</Text>
-          <View style={styles.inputWrapper}>
-            <TextInput
-              style={styles.input}
-              placeholder="Pesquisar post"
-              value={textInput}
-              onChangeText={setTextInput} 
-            />
-            <TouchableOpacity
-              style={styles.searchButton}
-              onPress={() => searchPost(textInput)} 
-            >
-              <Icon name="search" size={24} color="gray" />
-            </TouchableOpacity>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView style={styles.container}>
+        <View style={styles.header}>
+          <GoBack title="Posts   " navigation={navigation} routeName="Login"/>
+          <View style={styles.inlineFormWrapper}>
+            <View style={styles.inputWrapper}>
+              <TextInput
+                style={styles.input}
+                placeholder="Pesquisar post"
+                value={textInput}
+                onChangeText={setTextInput} 
+              />
+              <TouchableOpacity
+                style={styles.searchButton}
+                onPress={() => searchPost(textInput)} 
+              >
+                <Icon name="search" size={24} color="gray" />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
 
-      {role === '1' && (
-        <View style={styles.buttonWrapper}>
-          <TouchableOpacity
-            style={styles.iconButton}
-            onPress={() => navigation.navigate('Admin_Post')} 
-          >
-            <Icon name="checklist-rtl" size={24} color="white" />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.iconButton}
-            onPress={() => navigation.navigate('Admin_Professor')} 
-          >
-            <Icon name="engineering" size={24} color="white" />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.iconButton}
-            onPress={() => navigation.navigate('Admin_Estudante')} 
-          >
-            <Icon name="person-search" size={24} color="white" />
-          </TouchableOpacity>
-
-        </View>
-      )}
-    
-      {textSearch && <Text style={styles.results}>Resultados: {textSearch}</Text>}
-
-      <View style={styles.cardsWrapper}>
-        {posts && posts.length > 0 ? (
-          posts.map((post) => (
+        {role === '1' && (
+          <View style={styles.buttonWrapper}>
             <TouchableOpacity
-              key={post.id}
-              onPress={() => {
-                navigation.navigate("post", { id: post.id });
-              }}
+              style={styles.iconButton}
+              onPress={() => navigation.navigate('Admin_Post')} 
             >
-              <Post key={post.id} post={post} />
+              <Icon name="checklist-rtl" size={24} color="white" />
             </TouchableOpacity>
-          ))
-        ) : (
-          <Text style={styles.noPosts}>Não há nenhum post</Text>
+
+            <TouchableOpacity
+              style={styles.iconButton}
+              onPress={() => navigation.navigate('Admin_Professor')} 
+            >
+              <Icon name="engineering" size={24} color="white" />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.iconButton}
+              onPress={() => navigation.navigate('Admin_Estudante')} 
+            >
+              <Icon name="person-search" size={24} color="white" />
+            </TouchableOpacity>
+
+          </View>
         )}
-      </View>
-     
-    </ScrollView>
+      
+        {textSearch && <Text style={styles.results}>Resultados: {textSearch}</Text>}
+
+        <View style={styles.cardsWrapper}>
+          {posts && posts.length > 0 ? (
+            posts.map((post) => (
+              <TouchableOpacity
+                key={post.id}
+                onPress={() => {
+                  navigation.navigate("post", { id: post.id });
+                }}
+              >
+                <Post key={post.id} post={post} />
+              </TouchableOpacity>
+            ))
+          ) : (
+            <Text style={styles.noPosts}>Não há nenhum post</Text>
+          )}
+        </View>
+      
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -126,18 +132,15 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    flex: 0.3,
+    //flex: 0.12,
+    alignItems: 'center',
+    fontSize: 34,
+    textAlign: 'left',
   },
   inlineFormWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
-  },
-  subTitle: {
-    fontSize: 18,
-    marginRight: 8,
   },
   inputWrapper: {
     flexDirection: 'row',
@@ -145,7 +148,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     borderColor: 'gray',
-    borderRadius: 4,
+    borderRadius: 10,
   },
   input: {
     flex: 1,

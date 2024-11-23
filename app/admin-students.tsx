@@ -10,6 +10,7 @@ import { getAdminUsers } from '@/services/getAdminUsers';
 import { USER_ROUTE_STUDENT, USER_ROUTE_TEACHER } from '@/configs/api';
 import BigLink from '@/components/ui/Links';
 import { IStudentAdmin } from '@/services/getPosts';
+import GoBack from '@/components/navigation/GoBack';
 
 // Simulação da interface do Istudent
 type AdminStudentNewNavigationProp = StackNavigationProp<RootParamList, 'AdminStudents'>;
@@ -42,14 +43,10 @@ const AdminStudents = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-      <TouchableOpacity
-          style={styles.title} onPress={() => navigation.navigate("Posts")} >
-          <Icon name="arrow-back" size={30} color="black" />
-        </TouchableOpacity>
-
+        <GoBack title="Admin Estudante" navigation={navigation} routeName="Posts"/>
         <TouchableOpacity
           style={styles.iconButton}
-          onPress={() => navigation.replace('Registrar')} 
+          onPress={() => navigation.replace('Registrar', {role:"2"})} 
         >
           <Icon name="person-add" size={24} color="white" />
         </TouchableOpacity>

@@ -16,7 +16,6 @@ interface Values {
 }
 
 function Post() {
-  
 
   const [comments, setComments] = useState<IComment[]>([]);
   const route = useRoute();
@@ -37,7 +36,6 @@ function Post() {
 
     fetchPost();  
   }, [route])
-
 
   return (
     <ScrollView style={styles.container}>
