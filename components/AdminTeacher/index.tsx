@@ -28,7 +28,7 @@ const AdminTeacher = ({ Teacher }: AdminTeacherProps) => {
         AlertType.YES_NO,
         async () => {
           await deleteUser( role === '1' ? USER_ROUTE_TEACHER : USER_ROUTE_STUDENT, token, TeacherId );
-          navigation.replace("AdminTeachers"); // Navegação para a tela de admin após exclusão
+          navigation.replace("Admin_Professor"); // Navegação para a tela de admin após exclusão
         },
         () => {}
       );
@@ -38,22 +38,25 @@ const AdminTeacher = ({ Teacher }: AdminTeacherProps) => {
 
   return (
     <View style={styles.TeacherRow} key={"Teacher-" + Teacher?.id}>
-      
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Register", { id:Teacher?.id, role: "1" })}
-        style={styles.iconButton}
-      >
-        <Icon name="edit" size={24} color="#4d90fe" />
-      </TouchableOpacity>
-      
+
       <Text style={styles.TeacherTitle}>{Teacher?.name}</Text>
 
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Registrar", { id:Teacher?.id, role: "1" })}
+        style={styles.iconButton}
+      >
+        <Icon name="edit" size={30} color="#4d90fe" />
+      </TouchableOpacity>
+      
+      
       <TouchableOpacity
         onPress={() => onDeleteTeacher(Teacher?.id || 0)}
         style={styles.iconButton}
       >
-        <Icon name="delete" size={24} color="#ff4d4d" />
+        <Icon name="delete" size={30} color="#ff4d4d" />
       </TouchableOpacity>
+
+
     </View>
   );
 };

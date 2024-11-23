@@ -4,12 +4,12 @@ import { NativeStackScreenProps } from "react-native-screens/lib/typescript/nati
 export type PropsStackRoutes = {
     Login: undefined,
     Posts: undefined,
-    AdminPost: undefined,
-    AdminTeachers: undefined,
-    AdminStudents: undefined,
-    Register: undefined,
-    NewPost: undefined,
-    EditPost: { id: number },
+    Admin_Post: undefined,
+    Admin_Professor: undefined,
+    Admin_Estudante: undefined,
+    Registrar: undefined,
+    Criar_Post: undefined,
+    Editar_Post: { id: number },
     Post : { id:number }
 }
 

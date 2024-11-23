@@ -69,7 +69,7 @@ const UserRegistration = () => {
             else{
               await createUser(route.params?.role === '1' ? USER_ROUTE_TEACHER : USER_ROUTE_STUDENT, token, values.name, values.password, values.userName );
             }
-            navigation.replace('AdminTeachers');
+            navigation.replace(route.params?.role === '1' ?'Admin_Professor' : 'Admin_Estudante');
             setSubmitting(false);
             dispatchAlert('Usuário cadastrado com sucesso!', AlertType.SUCCESS);
           } catch (error) {

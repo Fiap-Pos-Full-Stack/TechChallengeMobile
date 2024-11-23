@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import BigLink from '../components/ui/Links'; // Usar como componente para links
 import { ITeacherAdmin } from '@/services/getPosts';
 import useAuth from '@/hooks/useAuth';
@@ -8,7 +8,7 @@ import AdminTeacher from '@/components/AdminTeacher';
 import { StackNavigationProp } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons'; // Importando os ícones do Ionicons
 import { getAdminUsers } from '@/services/getAdminUsers';
-import { USER_ROUTE_TEACHER } from '@/configs/api';
+import {  USER_ROUTE_TEACHER } from '@/configs/api';
 
 // Simulação da interface do IPost
 type AdminTeacherNewNavigationProp = StackNavigationProp<RootParamList, 'AdminTeachers'>;
@@ -21,6 +21,9 @@ const AdminTeachers = () => {
   const { token } = useAuth();
 
   useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => null, // Remove o botão de voltar nativo
+    });
     fetchPosts(1)
   }, []);
 
@@ -29,7 +32,6 @@ const AdminTeachers = () => {
     const fetchData = async (actualPage:number) => {
       const response = await getAdminUsers(USER_ROUTE_TEACHER, token, actualPage);
       setTotalPage(parseInt(response.headers.get("X-Total-Pages") || "1"))
-
       const fetchedPosts: ITeacherAdmin[] = await response.json();
       setPosts(fetchedPosts);
     };
@@ -39,13 +41,22 @@ const AdminTeachers = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.subtitle}>Teachers Admin</Text>
+    
+        
+        <TouchableOpacity
+          style={styles.title} onPress={() => navigation.navigate("Posts")} >
+          <Icon name="arrow-back" size={30} color="black" />
+        </TouchableOpacity>
 
-        {/* Botão com ícone de adicionar */}
-        <BigLink style={styles.button} onPress={() => navigation.navigate("Register", { role: "1" })}>
-          <Icon name="add-circle" size={24} color="#fff" style={styles.addIcon} />
-          Criar novo
-        </BigLink>
+
+        <TouchableOpacity
+          style={styles.iconButton}
+          onPress={() => navigation.replace('Registrar',{role: "1" })} 
+        >
+          <Icon name="person-add" size={24} color="white" />
+        </TouchableOpacity>
+
+        
       </View>
 
       {posts.length > 0 ? (
@@ -55,7 +66,7 @@ const AdminTeachers = () => {
           renderItem={({ item }) => <AdminTeacher Teacher={item} />}
         />
       ) : (
-        <Text>Nenhum post encontrado</Text>
+        <Text>No teachers found</Text>
       )}
       <View style={styles.pagination}>
         {Array.apply(0, Array(totalPage)).map(function (x, i) {
@@ -76,6 +87,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap:10,
     alignItems: 'center',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    flex: 0.3,
   },
   page: {
     backgroundColor: '#1e6e2f',
@@ -130,5 +146,15 @@ const styles = StyleSheet.create({
   },
   addIcon: {
     marginRight: 10, // Espaço entre o ícone e o texto
+  },
+  iconButton: {
+    backgroundColor: 'green', // Azul para destacar
+    padding: 10,
+    borderRadius: 10, // Circular
+    marginHorizontal: 10, // Espaço entre os botões
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 'auto',
+
   },
 });

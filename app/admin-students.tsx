@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
-import { IStudentAdmin } from '@/services/getstudents';
+
 import useAuth from '@/hooks/useAuth';
 import { useNavigation } from '@react-navigation/native';
 import AdminStudent from '@/components/AdminStudent';
@@ -9,6 +9,7 @@ import Icon from 'react-native-vector-icons/Ionicons'; // Importando os ícones 
 import { getAdminUsers } from '@/services/getAdminUsers';
 import { USER_ROUTE_STUDENT, USER_ROUTE_TEACHER } from '@/configs/api';
 import BigLink from '@/components/ui/Links';
+import { IStudentAdmin } from '@/services/getPosts';
 
 // Simulação da interface do Istudent
 type AdminStudentNewNavigationProp = StackNavigationProp<RootParamList, 'AdminStudents'>;
@@ -21,6 +22,9 @@ const AdminStudents = () => {
   const { token } = useAuth();
 
   useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => null, // Remove o botão de voltar nativo
+    });
     fetchStudents(page)
   }, []);
 
@@ -38,11 +42,14 @@ const AdminStudents = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.subtitle}>Students Admin</Text>
+      <TouchableOpacity
+          style={styles.title} onPress={() => navigation.navigate("Posts")} >
+          <Icon name="arrow-back" size={30} color="black" />
+        </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.iconButton}
-          onPress={() => navigation.navigate('Register')} // Navega para a página "Adminstudents"
+          onPress={() => navigation.replace('Registrar')} 
         >
           <Icon name="person-add" size={24} color="white" />
         </TouchableOpacity>
@@ -55,7 +62,7 @@ const AdminStudents = () => {
           renderItem={({ item }) => <AdminStudent Student={item} />}
         />
       ) : (
-        <Text>Nenhum student encontrado</Text>
+        <Text>Nenhum estudante encontrado</Text>
       )}
             <View style={styles.pagination}>
         {Array.apply(0, Array(totalPage)).map(function (x, i) {
@@ -76,6 +83,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap:10,
     alignItems: 'center',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    flex: 0.3,
   },
   page: {
     backgroundColor: '#1e6e2f',

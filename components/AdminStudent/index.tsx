@@ -10,7 +10,9 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { IStudentAdmin } from "@/services/getPosts";
 import { USER_ROUTE_STUDENT } from "@/configs/api";
 
-type AdminStudentNavigationProp = StackNavigationProp<RootParamList, 'AdminStudents'>;
+
+
+type AdminStudentNavigationProp = StackNavigationProp<RootParamList, 'AdminStudent'>;
 
 type AdminStudentProps = {
   Student: IStudentAdmin | undefined;
@@ -28,7 +30,7 @@ const AdminStudent = ({ Student }: AdminStudentProps) => {
         AlertType.YES_NO,
         async () => {
           await deleteUser( USER_ROUTE_STUDENT, token, StudentId );
-          navigation.replace("AdminStudents"); // Navegação para a tela de admin após exclusão
+          navigation.replace("Admin_Estudante"); // Navegação para a tela de admin após exclusão
         },
         () => {}
       );
@@ -42,7 +44,7 @@ const AdminStudent = ({ Student }: AdminStudentProps) => {
       <Text style={styles.StudentTitle}>{Student?.name}</Text>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate("Register", { id:Student?.id, role: "2" })}
+        onPress={() => navigation.navigate("Registrar", { id:Student?.id, role: "2" })}
         style={styles.iconButton}
       >
         <Icon name="edit" size={30} color="#4d90fe" />

@@ -17,6 +17,9 @@ const Posts = () => {
 
 
   useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => null, // Remove o botão de voltar nativo
+    });
     const fetchPosts = async () => {
       try {
         const response = await getPosts(); // Faz a requisição para obter os posts
@@ -39,7 +42,12 @@ const Posts = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Posts</Text>
+      <TouchableOpacity
+          style={styles.title}
+          onPress={() => navigation.goBack()} // Volta para a tela anterior
+        >
+          <Icon name="arrow-back" size={30} color="black" />
+        </TouchableOpacity>
         <View style={styles.inlineFormWrapper}>
           <Text style={styles.subTitle}>Pesquisar</Text>
           <View style={styles.inputWrapper}>
@@ -63,21 +71,21 @@ const Posts = () => {
         <View style={styles.buttonWrapper}>
           <TouchableOpacity
             style={styles.iconButton}
-            onPress={() => navigation.navigate('AdminPost')} // Navega para a página "AdminPosts"
+            onPress={() => navigation.navigate('Admin_Post')} // Navega para a página "AdminPosts"
           >
             <Icon name="checklist-rtl" size={24} color="white" />
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.iconButton}
-            onPress={() => navigation.navigate('AdminTeachers')} // Navega para a página "Cadastro"
+            onPress={() => navigation.navigate('Admin_Professor')} // Navega para a página "Cadastro"
           >
             <Icon name="engineering" size={24} color="white" />
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.iconButton}
-            onPress={() => navigation.navigate('AdminStudents')} // Navega para a página "Cadastro"
+            onPress={() => navigation.navigate('Admin_Estudante')} // Navega para a página "Cadastro"
           >
             <Icon name="person-search" size={24} color="white" />
           </TouchableOpacity>

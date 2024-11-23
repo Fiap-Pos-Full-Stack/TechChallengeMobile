@@ -25,7 +25,8 @@ const AdminPostEdit = () => {
   const route = useRoute();
   const [post, setPost] = useState<IPost | null>(null);
   const {token} = useAuth();
-  useEffect(() => {
+  useEffect(() => {    
+    
     const fetchPost = async () => {
       try {
         const response = await getPost(route.params.id || 0);  
@@ -47,7 +48,7 @@ const AdminPostEdit = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Editar Post</Text>
+        
       </View>
 
       <Formik
@@ -62,7 +63,7 @@ const AdminPostEdit = () => {
             await updatePost(post.id, values.title, values.author, values.content, token);
             setSubmitting(false);
             dispatchAlert("Atualizado com sucesso", AlertType.SUCCESS);
-            navigation.replace('AdminPost');
+            navigation.replace('Admin_Post');
           } catch (error) {
             dispatchAlert("Erro ao atualizar post", AlertType.ERROR);
             setSubmitting(false);

@@ -23,7 +23,7 @@ const AdminPostNew = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.subtitle}>Criar Post</Text>
+        
 
       </View>
 
@@ -37,7 +37,7 @@ const AdminPostNew = () => {
           try {
             console.log("values " + values.title, values.author, values.content, token);
             const response = await createPost(values.title, values.author, values.content, token);
-            navigation.replace('Posts');
+            navigation.replace('Admin_Post');
             console.log("response " + response);
             setSubmitting(false);
             dispatchAlert('Criado com sucesso', AlertType.SUCCESS);
@@ -86,8 +86,12 @@ const AdminPostNew = () => {
             />
 
             <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
-              <Text style={styles.buttonText}>Criar</Text>
+              <Text style={styles.buttonText}>
+
+                Criar</Text>
             </TouchableOpacity>
+
+
           </View>
         )}
       </Formik>
@@ -143,9 +147,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    color: '#007BFF',
+    color: '#dddddd',
     backgroundColor: '#007BFF',
-    fontSize: 16,
+    fontSize: 20,
   },
 });
 

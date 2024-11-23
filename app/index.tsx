@@ -7,12 +7,12 @@ import Post from './post';
 import AlertProvider from '@/context/alertContext';
 import AuthProvider from '@/context/authContext';
 import { PropsStackRoutes } from './interfaces';
-import AdminTeachers from '@/app/admin-teachers';
-import AdminPostEdit from './admin-post-edit';
-import NewPost from '@/app/admin-post-new';
-import Register from '@/app/register';
-import AdminStudents from '@/app/admin-students';
-import AdminPost from '@/app/admin-posts';
+import Admin_Professor from '@/app/admin-teachers';
+import Admin_PostEdit from './admin-post-edit';
+import Criar_Post from '@/app/admin-post-new';
+import Registrar from '@/app/register';
+import Admin_Estudante from '@/app/admin-students';
+import Admin_Post from '@/app/admin-posts';
 
 const Stack = createStackNavigator<PropsStackRoutes>();
 
@@ -25,12 +25,12 @@ const AppNavigator = () => {
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Post" component={Post}  initialParams={{ id:0 }} />
           <Stack.Screen name="Posts" component={Posts} />
-          <Stack.Screen name="AdminTeachers" component={AdminTeachers} />
-          <Stack.Screen name="AdminStudents" component={AdminStudents} />
-          <Stack.Screen name="AdminPost" component={AdminPost} />
-          <Stack.Screen name="EditPost" component={AdminPostEdit} />
-          <Stack.Screen name="NewPost" component={NewPost} />
-          <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen name="Admin_Professor" component={Admin_Professor} />
+          <Stack.Screen name="Admin_Estudante" component={Admin_Estudante} />
+          <Stack.Screen name="Admin_Post" component={Admin_Post} />
+          <Stack.Screen name="Editar_Post" component={Admin_PostEdit} />
+          <Stack.Screen name="Criar_Post" component={Criar_Post} />
+          <Stack.Screen name="Registrar" component={Registrar} />
         </Stack.Navigator>
       </AuthProvider>
     </AlertProvider>

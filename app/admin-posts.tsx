@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, FlatList, StyleSheet } from 'react-native';
+import { View, Text, Button, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import AdminPost from '../components/AdminPost'; // Importar o componente AdminPost
 import BigLink from '../components/ui/Links'; // Usar como componente para links
 import { getAdminPosts } from '@/services/getAdminPosts';
@@ -9,6 +9,7 @@ import { LOCAL_STORAGE_TOKEN } from '@/configs/constraints';
 import useAuth from '@/hooks/useAuth';
 import { Title } from './../components/ui/Typography';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Ionicons';
 // Simulação da interface do IPost
 
 const AdminPosts = () => {
@@ -19,6 +20,9 @@ const {token} = useAuth();
 
   // Simulando o carregamento dos dados (substitua isso com sua lógica de API)
   useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => null, // Remove o botão de voltar nativo
+    });
     const fetchPosts = async () => {
       // Simulando a obtenção dos posts, substitua com sua lógica real
       //const token = await AsyncStorage.getItem(LOCAL_STORAGE_TOKEN) as string;
@@ -35,9 +39,18 @@ const {token} = useAuth();
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.subtitle}>Posts admin</Text>
-        <BigLink style={styles.button} onPress={() => navigation.navigate("NewPost")}>Criar novo</BigLink>          
+        
+        <TouchableOpacity
+          style={styles.title} onPress={() => navigation.navigate("Posts")} >
+          <Icon name="arrow-back" size={30} color="black" />
+        </TouchableOpacity>
 
+        <TouchableOpacity
+          style={styles.iconButton}
+          onPress={() => navigation.navigate("Criar_Post")} 
+        >
+          <Icon name="duplicate-outline" size={24} color="white" />
+        </TouchableOpacity>
       </View>
 
       {posts.length > 0 ? (
@@ -47,10 +60,18 @@ const {token} = useAuth();
           renderItem={({ item }) => <AdminPost post={item} />}
         />
       ) : (
-        <Text>Nenhum post encontrado</Text>
+        <Text>No post found</Text>
       )}
     </View>
   );
+};
+
+AdminPosts.navigationOptions = {
+  headerLeft: () => (
+    <TouchableOpacity onPress={() => useNavigation().goBack()}>
+      <Icon name="arrow-back" size={30} color="black" />
+    </TouchableOpacity>
+  ),
 };
 
 export default AdminPosts;
@@ -73,6 +94,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     
   },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    flex: 0.3,
+  },
   button: {
     backgroundColor: '#1e6e2f',
     padding: 10,
@@ -82,5 +108,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 10,
     marginBottom: 10,
-  }
+  },
+  iconButton: {
+    backgroundColor: 'green', // Azul para destacar
+    padding: 10,
+    borderRadius: 10, // Circular
+    marginHorizontal: 10, // Espaço entre os botões
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

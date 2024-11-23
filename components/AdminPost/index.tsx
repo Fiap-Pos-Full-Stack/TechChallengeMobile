@@ -4,9 +4,10 @@ import { IPost } from "../../services/getPosts";
 import { deletePost } from "../../services/deletePost";
 import useAlert from "../../hooks/useAlert";
 import { AlertType } from "../../context/alertContext";
-import { useNavigation } from "@react-navigation/native"; // Para navegação no React Native
+import { useNavigation } from "@react-navigation/native"; 
 import useAuth from "@/hooks/useAuth";
-
+import { StackNavigationProp } from "@react-navigation/stack";
+import Icon from "react-native-vector-icons/MaterialIcons"; 
 
 type AdminPostNavigationProp = StackNavigationProp<RootParamList, 'AdminPost'>;
 
@@ -18,6 +19,7 @@ const AdminPost = ({ post }: AdminPostProps) => {
   const { dispatchAlert } = useAlert();
   const navigation = useNavigation<AdminPostNavigationProp>();
   const {token} = useAuth();
+  
   const onDeletePost = useCallback(
     (postId: number) => {
       dispatchAlert(
@@ -25,7 +27,7 @@ const AdminPost = ({ post }: AdminPostProps) => {
         AlertType.YES_NO,
         async () => {
           await deletePost(postId, token);
-          navigation.replace("AdminPost"); // Navegação para a tela de admin após exclusão
+          navigation.replace("Admin_Post"); // Navegação para a tela de admin após exclusão
         },
         () => {}
       );
@@ -34,26 +36,22 @@ const AdminPost = ({ post }: AdminPostProps) => {
   );
 
   return (
-    <View style={styles.postWrapper} key={"post-" + post?.id}>
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Post", {id:post.id})}
-      >
-        <Text style={styles.postTitle}>{post?.title}</Text>
-      </TouchableOpacity>
-      <View style={styles.postOperations}>
+    <View style={styles.postRow} key={"post-" + post?.id}>
+      <Text style={styles.postTitle}>{post?.title}</Text>
+
+      <View style={styles.buttonsContainer}>
         <TouchableOpacity
-          onPress={() => onDeletePost(post?.id || 0)}
-          style={styles.deleteButton}
+          onPress={() => navigation.navigate("Editar_Post", { id: post?.id })}
+          style={styles.iconButton}
         >
-          <Text style={styles.buttonText}>Deletar</Text>
+          <Icon name="edit" size={30} color="#4d90fe" />
         </TouchableOpacity>
+
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("EditPost", {id:post.id})
-          }
-          style={styles.editButton}
+          onPress={() => onDeletePost(post?.id)}
+          style={styles.iconButton}
         >
-          <Text style={styles.buttonText}>Editar</Text>
+          <Icon name="delete" size={30} color="#ff4d4d" />
         </TouchableOpacity>
       </View>
     </View>
@@ -63,36 +61,33 @@ const AdminPost = ({ post }: AdminPostProps) => {
 export default AdminPost;
 
 const styles = StyleSheet.create({
-    postWrapper: {
-      width: "100%",
-      marginBottom: 20,
-      padding: 10,
-      borderBottomWidth: 1,
-      borderBottomColor: "rgba(0, 0, 0, 0.3)", // Ajuste conforme sua preferência
-    },
-    postTitle: {
-      fontSize: 18,
-      color: "#000", // Cor do título do post
-      fontWeight: "bold",
-    },
-    postOperations: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      marginTop: 10,
-    },
-    deleteButton: {
-      backgroundColor: "#ff4d4d", // Cor de fundo para o botão deletar
-      padding: 8,
-      borderRadius: 5,
-    },
-    editButton: {
-      backgroundColor: "#4d90fe", // Cor de fundo para o botão editar
-      padding: 8,
-      borderRadius: 5,
-    },
-    buttonText: {
-      color: "#fff",
-      fontSize: 16,
-      textAlign: "center",
-    },
-  });
+  postWrapper: {
+    width: "100%",
+    marginBottom: 20,
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(0, 0, 0, 0.3)", 
+  },
+  postTitle: {
+    fontSize: 18,
+    color: "#000", 
+    fontWeight: "bold",
+  },
+  postRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between", 
+    width: "100%",
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(0, 0, 0, 0.3)", 
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  iconButton: {
+    padding: 8,
+    marginLeft: 15,  // Espaçamento entre os botões
+  },
+});
