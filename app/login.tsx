@@ -19,7 +19,7 @@ const Login = () => {
   const navigation = useNavigation();
   const { login } = useAuth();
   const { dispatchAlert } = useAlert();
-  const [userType, setUserType] = useState<'Professor' | 'Estudante'>('Professor'); // Estado para o tipo de usuário
+  const [userType, setUserType] = useState<'Professor' | 'Estudante'>('Professor'); 
 
   useLayoutEffect(() => {
     navigation.setOptions({ headerShown: false });
@@ -29,10 +29,10 @@ const Login = () => {
   const doLoginCallback = useCallback(
     async (user: string, pass: string) => {
       try {
-        const response = await doLogin(user, pass, userType === 'Estudante' ? USER_ROUTE_STUDENT : USER_ROUTE_TEACHER); // Define o tipo de usuário
+        const response = await doLogin(user, pass, userType === 'Estudante' ? USER_ROUTE_STUDENT : USER_ROUTE_TEACHER); 
         if (response.token) {
           login(response.token);
-          navigation.navigate( 'Posts' ); // Ajuste o nome da tela conforme necessário
+          navigation.navigate( 'Posts' ); 
           dispatchAlert('Logado com sucesso', AlertType.SUCCESS);
         }
       } catch {
@@ -79,7 +79,7 @@ const Login = () => {
             />
             <TouchableOpacity
               style={styles.button}
-              onPress={() => handleSubmit()} // Chamada correta da função de envio
+              onPress={() => handleSubmit()} 
               activeOpacity={0.8}
             >
               <Text style={styles.buttonText}>Entrar</Text>

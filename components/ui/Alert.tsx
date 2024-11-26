@@ -19,11 +19,11 @@ export const AlertBox = ({ alertType, open, children }: AlertBoxProps) => {
 const getBackgroundColor = (alertType: AlertType) => {
   switch (alertType) {
     case AlertType.ERROR:
-      return 'red'; // Substitua pela cor do tema
+      return 'red'; 
     case AlertType.SUCCESS:
-      return 'green'; // Substitua pela cor do tema
+      return 'green'; 
     default:
-      return 'gray'; // Substitua pela cor do tema
+      return 'gray'; 
   }
 };
 
@@ -67,10 +67,10 @@ const styles = StyleSheet.create({
     zIndex: 99999,
   },
   alertText: {
-    color: 'white', // Substitua pela cor do tema
+    color: 'white', 
   },
   alertBoxYesNo: {
-    backgroundColor: 'gray', // Substitua pela cor do tema
+    backgroundColor: 'gray', 
     position: 'relative',
     padding: 50,
     zIndex: 99999,
@@ -83,11 +83,11 @@ const styles = StyleSheet.create({
   button: {
     padding: 8,
     borderRadius: 5,
-    backgroundColor: 'blue', // Substitua pela cor do tema
+    backgroundColor: 'blue', 
   },
   buttonText: {
     fontSize: 16,
-    color: 'white', // Substitua pela cor do tema
+    color: 'white', 
   },
   blackOpacity: {
     backgroundColor: 'rgba(0, 0, 0, 0.1)',

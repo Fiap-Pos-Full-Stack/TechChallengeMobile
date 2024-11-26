@@ -21,7 +21,7 @@ const Register = () => {
 
     register(username, email, password)
       .then(() => {
-        navigation.replace("Home"); // Navega para a tela de Home após o registro
+        navigation.replace("Home"); 
       })
       .catch((err) => {
         Alert.alert("Erro", err.message || "Erro ao registrar, tente novamente.");

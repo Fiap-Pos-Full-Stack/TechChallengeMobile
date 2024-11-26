@@ -3,7 +3,6 @@ import { View, Text, StyleSheet } from 'react-native';
 import { IComment } from "../../services/getPosts";
 import { parserDateWithHours } from "../../utils/parser";
 
-// Tipagem para os comentários
 type CommentProps = {
   comment: IComment | undefined;
 };
@@ -29,7 +28,7 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
       alignItems: 'flex-start',
       borderBottomWidth: 1,
-      borderBottomColor: 'rgba(0, 0, 0, 0.7)',  // Adapte a cor conforme o tema
+      borderBottomColor: 'rgba(0, 0, 0, 0.7)', 
       marginBottom: 20,
     },
     commentHeader: {
@@ -40,7 +39,7 @@ const styles = StyleSheet.create({
     },
     commentTitle: {
       fontSize: 18,
-      color: '#000',  // Adapte a cor conforme o tema
+      color: '#000',  
     },
     commentDate: {
       fontSize: 14,
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
       fontSize: 16,
       fontWeight: '400',
       marginVertical: 8,
-      color: 'rgba(0, 0, 0, 0.5)',  // Adapte a cor conforme o tema
+      color: 'rgba(0, 0, 0, 0.5)',  
       lineHeight: 24,
     },
   });

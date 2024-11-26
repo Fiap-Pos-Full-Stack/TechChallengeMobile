@@ -1,17 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import BigLink from '../components/ui/Links'; // Usar como componente para links
+import BigLink from '../components/ui/Links'; 
 import { ITeacherAdmin } from '@/services/getPosts';
 import useAuth from '@/hooks/useAuth';
 import { useNavigation } from '@react-navigation/native';
 import AdminTeacher from '@/components/AdminTeacher';
 import { StackNavigationProp } from '@react-navigation/stack';
-import Icon from 'react-native-vector-icons/Ionicons'; // Importando os ícones do Ionicons
+import Icon from 'react-native-vector-icons/Ionicons'; 
 import { getAdminUsers } from '@/services/getAdminUsers';
 import {  USER_ROUTE_TEACHER } from '@/configs/api';
 import GoBack from '@/components/navigation/GoBack';
 
-// Simulação da interface do IPost
 type AdminTeacherNewNavigationProp = StackNavigationProp<RootParamList, 'AdminTeachers'>;
 
 const AdminTeachers = () => {
@@ -23,7 +22,7 @@ const AdminTeachers = () => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => null, // Remove o botão de voltar nativo
+      headerLeft: () => null, 
     });
     fetchPosts(1)
   }, []);
@@ -75,12 +74,12 @@ export default AdminTeachers;
 
 const styles = StyleSheet.create({
   pagination:{
-    flexDirection: 'row', // Alinha os botões de paginação na horizontal
-    justifyContent: 'center', // Centraliza os botões
-    gap: 1, // Diminui o espaço entre os botões
+    flexDirection: 'row', 
+    justifyContent: 'center', 
+    gap: 1, 
     alignItems: 'center',
-    flexWrap: 'wrap', // Permite que os botões que não cabem na linha se movam para a próxima linha
-    paddingHorizontal: 1, // Ad// Adiciona um pequeno espaço lateral
+    flexWrap: 'wrap', 
+    paddingHorizontal: 1, 
   },
   title: {
     fontSize: 24,
@@ -89,7 +88,7 @@ const styles = StyleSheet.create({
   },
   page: {
     backgroundColor: '#1e6e2f',
-    padding: 1, // Diminui o padding para um tamanho mais compacto
+    padding: 1,
     borderRadius: 5,
     color: '#fff',
     fontWeight: 'bold',
@@ -103,7 +102,7 @@ const styles = StyleSheet.create({
   pageDisabled: {
     backgroundColor: '#1e6e2f',
     opacity: 0.5,
-    padding: 1, // Diminui o padding para um tamanho mais compacto
+    padding: 1, 
     borderRadius: 5,
     color: '#fff',
     fontWeight: 'bold',
@@ -141,13 +140,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   addIcon: {
-    marginRight: 10, // Espaço entre o ícone e o texto
+    marginRight: 10, 
   },
   iconButton: {
-    backgroundColor: 'green', // Azul para destacar
+    backgroundColor: 'green', 
     padding: 10,
-    borderRadius: 10, // Circular
-    marginHorizontal: 10, // Espaço entre os botões
+    borderRadius: 10, 
+    marginHorizontal: 10, 
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 'auto',

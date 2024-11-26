@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     title: {
         fontWeight: '400',
         lineHeight: 40,
-        fontSize: 48, // Aproximadamente 3rem
+        fontSize: 48, 
         marginVertical: 10,
         letterSpacing: 0.1,
         textAlign: 'left',
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     subTitle: {
         fontWeight: '400',
         lineHeight: 40,
-        fontSize: 32, // Aproximadamente 2rem
+        fontSize: 32, 
         marginVertical: 8,
         letterSpacing: 0.1,
         textAlign: 'left',
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     subSubTitle: {
         fontWeight: '400',
         lineHeight: 40,
-        fontSize: 22, // Aproximadamente 1.4rem
+        fontSize: 22, 
         marginVertical: 4,
         letterSpacing: 0.1,
         textAlign: 'left',
@@ -53,14 +53,14 @@ const styles = StyleSheet.create({
     subSubSubTitle: {
         fontWeight: '400',
         lineHeight: 40,
-        fontSize: 16, // Aproximadamente 1.0rem
+        fontSize: 16, 
         marginVertical: 4,
         letterSpacing: 0.1,
         textAlign: 'left',
     },
     paragraph: {
-        fontSize: 16, // Aproximadamente 1rem
-        color: 'rgba(0, 0, 0, 0.7)', // Substitua pela cor que desejar
-        lineHeight: 28, // Aproximadamente 1.8rem
+        fontSize: 16, 
+        color: 'rgba(0, 0, 0, 0.7)', 
+        lineHeight: 28, 
     },
 });

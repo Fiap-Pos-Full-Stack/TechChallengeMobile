@@ -41,7 +41,6 @@ const AdminPostEdit = () => {
     fetchPost();  
   }, [route.params.id]);
 
-  // Garantir que o formulário só seja renderizado quando o post estiver carregado
   if (!post) {
     return <Text>Carregando...</Text>;
   }
@@ -54,13 +53,12 @@ const AdminPostEdit = () => {
 
       <Formik
         initialValues={{
-          title: post?.title || '', // Inicializa com string vazia
-          content: post?.description || '', // Inicializa com string vazia
-          author: post?.author || '', // Inicializa com string vazia
+          title: post?.title || '', 
+          content: post?.description || '', 
+          author: post?.author || '', 
         }}
         onSubmit={async (values, { setSubmitting }) => {
           try {
-            // Atualizar o post com os novos valores
             await updatePost(post.id, values.title, values.author, values.content, token);
             setSubmitting(false);
             dispatchAlert("Atualizado com sucesso", AlertType.SUCCESS);
@@ -79,7 +77,7 @@ const AdminPostEdit = () => {
               placeholder="Titulo"
               onChangeText={handleChange('title')}
               onBlur={handleBlur('title')}
-              value={values.title} // Usando valores do Formik
+              value={values.title} 
             />
 
             <Text style={styles.label}>Autor</Text>
@@ -88,7 +86,7 @@ const AdminPostEdit = () => {
               placeholder="Autor"
               onChangeText={handleChange('author')}
               onBlur={handleBlur('author')}
-              value={values.author} // Usando valores do Formik
+              value={values.author} 
             />
 
             <Text style={styles.label}>Conteudo</Text>
@@ -99,13 +97,13 @@ const AdminPostEdit = () => {
               numberOfLines={4}
               onChangeText={handleChange('content')}
               onBlur={handleBlur('content')}
-              value={values.content} // Usando valores do Formik
+              value={values.content} 
             />
 
             <TouchableOpacity
               style={styles.button}
               onPress={() => handleSubmit()}
-              disabled={isSubmitting} // Desabilitar o botão enquanto o formulário está sendo enviado
+              disabled={isSubmitting} 
             >
               <Text style={styles.buttonText}>
                 {isSubmitting ? 'Atualizando...' : 'Atualizar'}
@@ -152,7 +150,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 8,
     marginBottom: 16,
-    textAlignVertical: 'top', // Para texto ficar no topo do TextInput
+    textAlignVertical: 'top', 
   },
   button: {
     backgroundColor: '#007BFF',

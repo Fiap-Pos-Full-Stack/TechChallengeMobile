@@ -178,10 +178,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   iconButton: {
-    backgroundColor: '#007AFF', // Azul para destacar
+    backgroundColor: '#007AFF',
     padding: 10,
-    borderRadius: 10, // Circular
-    marginHorizontal: 10, // Espaço entre os botões
+    borderRadius: 10, 
+    marginHorizontal: 10, 
     justifyContent: 'center',
     alignItems: 'center',
   },

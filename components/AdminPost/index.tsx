@@ -27,7 +27,7 @@ const AdminPost = ({ post }: AdminPostProps) => {
         AlertType.YES_NO,
         async () => {
           await deletePost(postId, token);
-          navigation.replace("Admin_Post"); // Navegação para a tela de admin após exclusão
+          navigation.replace("Admin_Post"); 
         },
         () => {}
       );
@@ -88,6 +88,6 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     padding: 8,
-    marginLeft: 15,  // Espaçamento entre os botões
+    marginLeft: 15,  
   },
 });

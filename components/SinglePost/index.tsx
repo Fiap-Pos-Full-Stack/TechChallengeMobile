@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 10,
     resizeMode: 'cover', 
-// Esse é o equivalente ao "object-fit: cover"
 },
   time: {
     fontSize: 12,
@@ -119,7 +118,7 @@ const styles = StyleSheet.create({
     color: '#000000', 
     display: 'flex',
     justifyContent: 'space-between',
-    flexDirection:'row',// Altere conforme o tema
+    flexDirection:'row',
 },
   postContent: {
     fontSize: 16,

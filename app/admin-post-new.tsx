@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 8,
     marginBottom: 16,
-    textAlignVertical: 'top', // Ensures text starts from the top of the textarea
+    textAlignVertical: 'top',
   },
   button: {
     backgroundColor: '#007BFF',

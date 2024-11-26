@@ -22,7 +22,6 @@ function Post() {
   const [post, setPost] = useState<IPost>();
 
   useEffect(()=>{
-    // Defina a função assíncrona dentro do useEffect
     const fetchPost = async () => {
       try {
         const response = await getPost(route.params.id || 0);  

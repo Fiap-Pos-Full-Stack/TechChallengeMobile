@@ -1,10 +1,10 @@
 import React, { useCallback } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons"; // Ícones do Material Design
+import Icon from "react-native-vector-icons/MaterialIcons"; 
 import { deleteUser } from "../../services/deleteUser";
 import useAlert from "../../hooks/useAlert";
 import { AlertType } from "../../context/alertContext";
-import { useNavigation } from "@react-navigation/native"; // Para navegação no React Native
+import { useNavigation } from "@react-navigation/native"; 
 import useAuth from "@/hooks/useAuth";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ITeacherAdmin } from "@/services/getPosts";
@@ -28,7 +28,7 @@ const AdminTeacher = ({ Teacher }: AdminTeacherProps) => {
         AlertType.YES_NO,
         async () => {
           await deleteUser( role === '1' ? USER_ROUTE_TEACHER : USER_ROUTE_STUDENT, token, TeacherId );
-          navigation.replace("Admin_Professor"); // Navegação para a tela de admin após exclusão
+          navigation.replace("Admin_Professor"); 
         },
         () => {}
       );

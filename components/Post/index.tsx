@@ -68,15 +68,14 @@ const styles = StyleSheet.create({
         height: '100%',
         borderRadius: 10,
         resizeMode: 'cover', 
-// Esse é o equivalente ao "object-fit: cover"
     },
     time: {
         position: 'absolute',
         top: 10,
         left: 10,
         fontSize: 12,
-        color: '#ffffff', // Exemplo de cor, use cores do seu tema
-        backgroundColor: '#000000', // Exemplo de cor
+        color: '#ffffff', 
+        backgroundColor: '#000000', 
         padding: 5,
         borderRadius: 5,
     },
@@ -87,17 +86,17 @@ const styles = StyleSheet.create({
         color: '#000000', 
         display: 'flex',
         justifyContent: 'space-between',
-        flexDirection:'row',// Altere conforme o tema
+        flexDirection:'row',
     },
     postTitle: {
         fontSize: 18,
         fontWeight: '600',
         marginVertical: 5,
-        color: '#333333', // Exemplo de cor, use cores do seu tema
+        color: '#333333', 
     },
     postDescription: {
         fontSize: 14,
-        color: '#555555', // Exemplo de cor, use cores do seu tema
+        color: '#555555', 
         lineHeight: 22,
     },
     postReadMore: {

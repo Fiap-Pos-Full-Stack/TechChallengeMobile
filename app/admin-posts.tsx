@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Button, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import AdminPost from '../components/AdminPost'; // Importar o componente AdminPost
-import BigLink from '../components/ui/Links'; // Usar como componente para links
+import AdminPost from '../components/AdminPost';
+import BigLink from '../components/ui/Links'; 
 import { getAdminPosts } from '@/services/getAdminPosts';
 import { IPost } from '@/services/getPosts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,21 +11,17 @@ import { Title } from './../components/ui/Typography';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import GoBack from '@/components/navigation/GoBack';
-// Simulação da interface do IPost
 
 const AdminPosts = () => {
   const navigation = useNavigation();
-  // Estado para armazenar os posts
   const [posts, setPosts] = useState<IPost[]>([]);
 const {token} = useAuth();
 
-  // Simulando o carregamento dos dados (substitua isso com sua lógica de API)
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => null, // Remove o botão de voltar nativo
+      headerLeft: () => null,
     });
     const fetchPosts = async () => {
-      // Simulando a obtenção dos posts, substitua com sua lógica real
       //const token = await AsyncStorage.getItem(LOCAL_STORAGE_TOKEN) as string;
       const response = await getAdminPosts(token);
       const fetchedPosts: IPost[] = await response.json();
@@ -33,8 +29,6 @@ const {token} = useAuth();
     };
     fetchPosts();
   }, []);
-
-  // Função simulada de API para obter posts (substitua com sua API real)
 
 
   return (
@@ -98,10 +92,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   iconButton: {
-    backgroundColor: 'green', // Azul para destacar
+    backgroundColor: 'green', 
     padding: 10,
-    borderRadius: 10, // Circular
-    marginHorizontal: 10, // Espaço entre os botões
+    borderRadius: 10,
+    marginHorizontal: 10, 
     justifyContent: 'center',
     alignItems: 'center',
   },

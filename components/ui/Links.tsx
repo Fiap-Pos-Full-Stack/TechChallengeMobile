@@ -1,10 +1,10 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, TouchableOpacityProps } from 'react-native';
 
-// Defina as propriedades do Link, incluindo children e onPress
+
 interface LinkProps extends TouchableOpacityProps {
-  children: React.ReactNode; // Define children como ReactNode
-  onPress?: () => void; // Define onPress como opcional
+  children: React.ReactNode; 
+  onPress?: () => void; 
 }
 
 export const Link: React.FC<LinkProps> = ({ children, onPress, style }) => {
@@ -15,7 +15,7 @@ export const Link: React.FC<LinkProps> = ({ children, onPress, style }) => {
   );
 };
 
-// Repita para os outros componentes
+
 
 interface SmallLinkProps extends TouchableOpacityProps {
   children: React.ReactNode;
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     padding: 9,
     paddingHorizontal: 8,
     borderRadius: 5,
-    backgroundColor: 'yourTheme.linkBg', // Substitua pela cor do tema
+    backgroundColor: 'yourTheme.linkBg', 
   },
   linkText: {
     fontSize: 10,
@@ -82,20 +82,20 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     letterSpacing: 0.1,
     textAlign: 'center',
-    color: 'yourTheme.linkColor', // Substitua pela cor do tema
+    color: 'yourTheme.linkColor', 
   },
   smallLink: {
-    backgroundColor: 'yourTheme.colors.primary', // Substitua pela cor do tema
+    backgroundColor: 'yourTheme.colors.primary', 
     padding: 5,
     paddingHorizontal: 8,
     borderRadius: 5,
   },
   smallLinkText: {
-    fontSize: 12, // equivalente a 0.8rem
+    fontSize: 12, 
     color: 'white',
   },
   smallLinkDel: {
-    backgroundColor: 'yourTheme.colors.error', // Substitua pela cor do tema
+    backgroundColor: 'yourTheme.colors.error', 
     padding: 5,
     paddingHorizontal: 8,
     borderRadius: 5,
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   bigLink: {
-    backgroundColor: 'yourTheme.colors.success', // Substitua pela cor do tema
+    backgroundColor: 'yourTheme.colors.success', 
     padding: 8,
     borderRadius: 5,
     display: 'flex',
