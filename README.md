@@ -1,29 +1,61 @@
-# Welcome to your Expo app 👋
+# Tech Challenge Mobile FIAP
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Problema
 
-## Get started
+Após o sucesso do desenvolvimento da aplicação de blogging dinâmico com a implementação do back-end em Node.js e o front-end utilizando React, chegou a hora de criarmos uma interface gráfica mobile robusta, intuitiva e eficiente para esta aplicação. Esta atividade focará em desenvolver o front-end mobile utilizando React Native, proporcionando uma experiência de usuário excelente tanto para docentes quanto para estudantes.
 
-1. Install dependencies
+
+## Estruturação das pastas
+
+### App
+Pasta utilizada para estruturar a navegação e as rotas do site
+
+### Assets
+Pasta contendo imagens e icones utilizados no site
+
+### Components
+Pasta de componentes funcionais criados para o site
+
+### Configs
+Pasta para definir as configurações do site, como por exemplo as constantes, url, etc...
+
+### Context
+Pasta contendo os providers para fazer o gerenciamento de estados (context api)
+
+### Hooks
+Pasta contendo os hooks personalizados
+
+### Services
+Pasta utilizada para chamada de apis externas
+
+### Styles
+Pasta utilizada para definir estilos globais
+
+### Utils
+Pasta para arquivos uteis, como por exemplo parsers.
+
+
+## Como subir o projeto
+
+1. Instalar dependencias
 
    ```bash
    npm install
    ```
 
-2. Start the app
+2. Startar a aplicação
 
    ```bash
     npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+Você pode utilizar os ambientes:
 
 - [development build](https://docs.expo.dev/develop/development-builds/introduction/)
 - [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
 - [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
 - [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
 ## Get a fresh project
 
