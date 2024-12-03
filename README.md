@@ -8,16 +8,16 @@ Após o sucesso do desenvolvimento da aplicação de blogging dinâmico com a im
 ## Estruturação das pastas
 
 ### App
-Pasta utilizada para estruturar a navegação e as rotas do site
+Pasta utilizada para estruturar a navegação e as rotas do app
 
 ### Assets
-Pasta contendo imagens e icones utilizados no site
+Pasta contendo imagens e icones utilizados no app
 
 ### Components
-Pasta de componentes funcionais criados para o site
+Pasta de componentes funcionais criados para o app
 
 ### Configs
-Pasta para definir as configurações do site, como por exemplo as constantes, url, etc...
+Pasta para definir as configurações do app, como por exemplo as constantes, url, etc...
 
 ### Context
 Pasta contendo os providers para fazer o gerenciamento de estados (context api)
