@@ -42,7 +42,7 @@ const Posts = () => {
 
   const searchPost = useCallback(async (searchTerm: string) => {
     const searchedPosts = await searchPosts(searchTerm) as unknown as IPost[];
-    setPosts(searchedPosts[0]);
+    setPosts(searchedPosts);
     setTextSearch(searchTerm);
   }, [textInput]);
 
